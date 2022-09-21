@@ -1,0 +1,61 @@
+División
+  1. Paper
+  2. Código
+    2.0. Juego.
+      // No hay split.
+      * Generar array de cartas(puede haber varios mazos).
+      * Hacer shuffle.
+      * Repartir cartas. 1 a la banca y 2 al jugador
+      * Mecánica de pasarse.
+      * Mecánica de ases.
+      * Calcular cuenta de una mano.
+      * Mecánica de pedir o quedarse.
+      * Mecánica de banca.(>= 17)
+      * Mecánica de victoria/derrota/empate.
+      * Hacer interfaz para jugar manualmente.
+      * Hacer interfaz para jugar programáticamente.
+    2.1. Generación de datos etiquetados.
+      * Generar partida
+        * Pedir hasta no pasarse.
+        * Tomar en cuenta que si se recibió un as en el medio pudo haber sido conveniente quedarse antes(#1).
+        * Hacer jugar a la banca.
+        * Ver cual era el menor valor con el que podía haberle ganado.(#2)
+        * Filtrar las que perdí.
+      * Guardar de cada step hasta el (#1 y #2 tomar en cuenta):
+      // No olvidarse de guardar el último donde decidí quedarme.
+        * Inputs
+          * Suma de cartas
+          * Hay as?(booleano)
+          * Carta de la banca
+        *  Output
+           *  Pedir o no
+      // Descartar contradicciones. 
+    2.2. Entrenamiento de red neuronal y guardado de modelo solución.
+      * Entrenar red neuronal.
+      * Guardar modelo solución.
+      * Hacer lógica para restaurar modelo guardado.
+      * Hacer lógica para "preguntarle al modelo" si debo pedir o no en base a 3 inputs.
+    // Librería de frases para decir que si o no.
+    2.3. Interpretación de modelo, haciéndolo jugar para obtener stats.
+    // Usar 2.2. en 2.0.
+      * Hacer lógica para conectar al modelo con el juego
+      * Generar partidas y guardar
+        * Tasa victoria
+        * Tasa de empate
+        * Tasa de derrota
+    2.4. Bonus: hacer jugar otros modelos para comparar stats(ej moneda o jugador agresivo/defensivo).
+      * Equilibrado: pide hasta 17
+      * Agresivo: pide hasta 19
+      * Defensivo: pide hasta 16
+      * Guardar mismos stats
+
+
+
+2.1 Estructura csv
+* Suma de cartas
+* Hay as?(booleano)
+* Carta de la banca
+* Pedir o no
+sumaCartas,hayAs,cartaBanca,pedir
+ej:
+17, false, 10, true
