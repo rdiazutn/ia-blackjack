@@ -58,4 +58,5 @@ División
 * Pedir o no
 sumaCartas,hayAs,cartaBanca,pedir
 ej:
-17, false, 10, true
+17;false;10;true
+Chequear dummy.csv
