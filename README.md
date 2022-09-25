@@ -3,7 +3,13 @@
 # 0. Como desarrollar dentro de docker container
 * instalar docker
 * instalar la extension remote-container. Esto genera un icono en la barra lateral izquierda de visual studio
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/105680112/192162257-fb432ab6-ca67-418f-a053-06084c39e51e.png" />
+</p>
 * Cuando termine la instalacion apretamos crtl + shift + p y elegimos la opcion "Remote-Container: Reopen in container"
+
+![image](https://user-images.githubusercontent.com/105680112/192162174-0b6a8048-143d-49b2-a01e-d768ed4d245d.png)
 * Esto ya corre tenserflow y python 3.8.10 adentro asi que no hay que instalar nada más. Nota: la primera vez tarda un poco mas porque tiene que cargar todas las dependencias
 
 # 1.Generar modelo
