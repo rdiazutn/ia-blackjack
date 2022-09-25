@@ -1,0 +1,14 @@
+{
+    "name": "ia-blackjack-dev",
+    "dockerFile": "Dockerfile",
+    "appPort": [
+        8080
+    ],
+    "runArgs": [],
+    "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+    },
+    "extensions": [
+        "ms-python.black-formatter"
+    ]
+}
