@@ -6,9 +6,13 @@ CSV_FILE = 'datos.csv'
 
 # Generar datos
 if __name__ == "__main__":
-    partidas = sys.argv[1]
+    partidas = 1
+    if(len(sys.argv)>= 1):
+        partidas = int(sys.argv[1])
     print ("Generando %s partidas" % partidas)
     # inicialmente repartis 2 cartas al jugador y 1 a la banca
+    f = open(CSV_FILE, 'w')
+    writer = csv.writer(f)
     for i in range(int(partidas)):
         csvData = []
         partida = juego.crearMano()
@@ -41,8 +45,6 @@ if __name__ == "__main__":
             # Fijarme si me convenía quedarme antes
             # Busco primera situacion donde mi cuenta era mayor que de la banca y cambio pedir y sus siguientes a false
             pedir=True
-            f = open(CSV_FILE, 'w')
-            writer = csv.writer(f)
             for instancia in csvData:
                 situacion = instancia['situacion']
                 # Tomar en cuenta que si se recibió un as en el medio pudo haber sido conveniente quedarse antes(#1).
@@ -54,6 +56,7 @@ if __name__ == "__main__":
                 instancia['pedir']=pedir
                 # write a row to the csv file
                 row = ("%d;%s;%d;%s" % (situacion['cuenta'], 'TRUE' if situacion['hayAs'] else 'FALSE',situacion['banca'], 'TRUE' if instancia['pedir'] else 'FALSE' )).replace(",", "")
+                print("Guardando partida %s" % row)
                 writer.writerow([row])
                 # close the file
-            f.close()
+    f.close()
