@@ -7,6 +7,7 @@ CSV_FILE = 'datos.csv'
 # Generar datos
 if __name__ == "__main__":
     partidas = 1
+    desicionMano = {}
     if(len(sys.argv)>= 1):
         partidas = int(sys.argv[1])
     print ("Generando %s partidas" % partidas)
@@ -16,20 +17,17 @@ if __name__ == "__main__":
     for i in range(int(partidas)):
         csvData = []
         partida = juego.crearMano()
-        
+        partidaData = []
         # trampa
         while(True):
             situacion = partida.getSituacion()
             # { cuenta: N, hayAs: true|false, banca: M, estado: 'jugando'|'perdio'|'gano'|'empato' }
             proximaCarta = partida.siguienteCarta()
             if (proximaCarta + situacion.get('cuenta') > 21):
-                csvData.append({ 'situacion': situacion, 'pedir': False})
+                partidaData.append({ 'situacion': situacion, 'pedir': False})
                 break
-            
             partida.pedirCarta()
-            csvData.append({ 'situacion': situacion, 'pedir': True})
-        
-
+            partidaData.append({ 'situacion': situacion, 'pedir': True})
         # banca ?? 
         partida.quedarse()
 
@@ -41,11 +39,12 @@ if __name__ == "__main__":
 
         # Si perdí, lo desecho
         # Si gane
+        
         if (resultado['ganador'] == 'jugador'):
             # Fijarme si me convenía quedarme antes
             # Busco primera situacion donde mi cuenta era mayor que de la banca y cambio pedir y sus siguientes a false
             pedir=True
-            for instancia in csvData:
+            for instancia in partidaData:
                 situacion = instancia['situacion']
                 # Tomar en cuenta que si se recibió un as en el medio pudo haber sido conveniente quedarse antes(#1).
                 asCambiaSituacion = (situacion['hayAs'] and situacion['cuenta']+10>situacion['banca'] and situacion['cuenta']+10 <=21)
@@ -54,9 +53,15 @@ if __name__ == "__main__":
                     if(asCambiaSituacion):
                         situacion['cuenta']+=10
                 instancia['pedir']=pedir
-                # write a row to the csv file
-                row = ("%d;%s;%d;%s" % (situacion['cuenta'], 'TRUE' if situacion['hayAs'] else 'FALSE',situacion['banca'], 'TRUE' if instancia['pedir'] else 'FALSE' )).replace(",", "")
-                print("Guardando partida %s" % row)
-                writer.writerow([row])
-                # close the file
+                key = f"{situacion['cuenta']};{'TRUE' if situacion['hayAs'] else 'FALSE'};{situacion['banca']}"
+                if(not key in desicionMano):
+                    desicionMano[key] = 0
+                desicionMano[key] += pedir if 1 else -1 
+    # write a row to the csv file
+
+    for key in desicionMano:
+        row = ("%s;%s" % (key, 'TRUE' if desicionMano[key] > 0 else 'FALSE' ))
+        print("Guardando partida %s" % row)
+        writer.writerow([row])
+    # close the file
     f.close()

@@ -15,7 +15,7 @@ class Partida:
 
     def getSituacion(self):
         # { cuenta: N, hayAs: true|false, banca: M, estado: 'jugando'|'perdio'|'gano'|'empato' }
-        return  { 'cuenta': 19, 'hayAs': False, 'banca': 18, 'estado': 'gano' }
+        return  { 'cuenta': 19, 'hayAs': False, 'banca': 8, 'estado': 'gano' }
     
     def quedarse(self):
         pass
