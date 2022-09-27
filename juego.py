@@ -1,4 +1,5 @@
 import random
+#NOTA: los ases siempre valen 1 pero tenes que poner el flag HayAs
 valoresPosibles = [1,2,3,4,5,6,7,8,9,10]
 class Partida:
     def __init__(self):
