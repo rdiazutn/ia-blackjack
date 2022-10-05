@@ -28,7 +28,7 @@ class Partida:
         
 
     def pedirCarta(self):
-        carta = self.mazo.pop()
+        carta = self.mazo.pop(0)
         self.manoJugador.append(carta)
         return carta
 
@@ -66,6 +66,8 @@ class Partida:
                     cuentaBanca = cuentaBanca + 1
                 else:
                     cuentaBanca = cuentaBanca + 11
+            else:
+                cuentaBanca += k
         return cuentaBanca
     
     def getResultado(self):
