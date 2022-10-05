@@ -40,15 +40,15 @@ if __name__ == "__main__":
         # Si perdí, lo desecho
         # Si gane
         
-        if (resultado['ganador'] == 'jugador'):
+        if (any(partidaData, lambda situacion:(situacion['hayAs'] and situacion['cuenta']+10>resultado['banca'] and situacion['cuenta']+10 <=21) or situacion['cuenta']>resultado['banca'])):
             # Fijarme si me convenía quedarme antes
             # Busco primera situacion donde mi cuenta era mayor que de la banca y cambio pedir y sus siguientes a false
             pedir=True
             for instancia in partidaData:
                 situacion = instancia['situacion']
                 # Tomar en cuenta que si se recibió un as en el medio pudo haber sido conveniente quedarse antes(#1).
-                asCambiaSituacion = (situacion['hayAs'] and situacion['cuenta']+10>situacion['banca'] and situacion['cuenta']+10 <=21)
-                if (situacion['cuenta']>situacion['banca'] or asCambiaSituacion):
+                asCambiaSituacion = (situacion['hayAs'] and situacion['cuenta']+10>resultado['banca'] and situacion['cuenta']+10 <=21)
+                if (situacion['cuenta']>resultado['banca'] or asCambiaSituacion):
                     pedir = False
                     if(asCambiaSituacion):
                         situacion['cuenta']+=10

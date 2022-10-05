@@ -1,29 +1,76 @@
 import random
+
+# python generar_datos.py 3 para ejecutar
+
+cantidadMazos = 8
 #NOTA: los ases siempre valen 1 pero tenes que poner el flag HayAs
-valoresPosibles = [1,2,3,4,5,6,7,8,9,10]
+valoresPosibles = [1,2,3,4,5,6,7,8,9,10,10,10,10]
 class Partida:
     def __init__(self):
-        self.mano = []
+        self.manoJugador = []
+        self.manoBanca = []
+        self.mazo = []
         self.situacion = 0
 
+        # se genera el mazo completo y lo mezclo
+        # TODO revisar si se puede multiplicar el array asi nomas
+        self.mazo = valoresPosibles * 4 * cantidadMazos
+        random.shuffle(self.mazo)
+
+        # se reparten las cartas para el jugador
+        for i in range(2):
+            carta = self.mazo.pop()
+            self.manoJugador.append(carta)
+
+        # se reparten las cartas para la banca
+        carta = self.mazo.pop()
+        self.manoBanca.append(carta)
+        
+
     def pedirCarta(self):
-        valor = random.choice(valoresPosibles)
-        return valor
+        carta = self.mazo.pop()
+        self.manoJugador.append(carta)
+        return carta
 
     def siguienteCarta(self):
-        valor = random.choice(valoresPosibles)
-        return valor
+        return self.mazo[0]
 
     def getSituacion(self):
-        # { cuenta: N, hayAs: true|false, banca: M, estado: 'jugando'|'perdio'|'gano'|'empato' }
-        return  { 'cuenta': 19, 'hayAs': False, 'banca': 8, 'estado': 'gano' }
+        hayAs = False
+
+        # calculo de la mano del jugador
+        cuentaJugador = 0
+        for i in self.manoJugador:
+            if i == 1:
+                hayAs = True
+            cuentaJugador = cuentaJugador + i
+               
+        return  { 'cuenta': cuentaJugador, 'hayAs': hayAs, 'banca': self.getCuentaBanca()}
     
     def quedarse(self):
-        pass
+        # una vez que el jugador decide quedarse la banca tiene que terminar su mano
+        while(True):
+            carta = self.mazo.pop()
+            self.manoBanca.append(carta)
+            cuenta = self.getCuentaBanca()
+            if cuenta >= 17:
+                break
+
+    def getCuentaBanca(self):
+        cuentaBanca = 0 
+        # dejo los ases al final del array para un calculo mas facil
+        self.manoBanca.sort(reverse=True)
+        for k in self.manoBanca:
+            if k == 1:
+                if cuentaBanca > 10:
+                    cuentaBanca = cuentaBanca + 1
+                else:
+                    cuentaBanca = cuentaBanca + 11
+        return cuentaBanca
     
     def getResultado(self):
-        #{ ganador: 'jugador'|'banca'|'empate', cuentaJugador: N, cuentaBanca: M }
-        return { 'ganador': 'jugador', 'cuentaJugador': 20, 'cuentaBanca': 19 }
+        situacion = self.getSituacion()
+        return {'cuenta': situacion['cuenta'], 'hayAs': situacion['hayAs'],  'banca': self.getCuentaBanca()}
 
 
 def crearMano():
