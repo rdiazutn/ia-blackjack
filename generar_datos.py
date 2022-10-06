@@ -40,26 +40,19 @@ if __name__ == "__main__":
         # Si perdí, lo desecho
         # Si gane
         
-        
-        if (any((situacionPartida['situacion']['hayAs'] and situacionPartida['situacion']['cuenta']+10>resultado['banca'] and situacionPartida['situacion']['cuenta']+10 <=21) or (situacionPartida['situacion']['cuenta']>resultado['banca'] and situacionPartida['situacion']['cuenta'] <=21) for situacionPartida in partidaData)):
-            # Fijarme si me convenía quedarme antes
-            # si tengo un AS no siempre suma 10, es lo que me convenga
-            # Busco primera situacion donde mi cuenta era mayor que de la banca y cambio pedir y sus siguientes a false
-            pedir=True
-            for instancia in partidaData:
-                situacion = instancia['situacion']
-                # Tomar en cuenta que si se recibió un as en el medio pudo haber sido conveniente quedarse antes(#1).
-                asCambiaSituacion = (situacion['hayAs'] and (situacion['cuenta']+10)>resultado['banca'] and (situacion['cuenta']+10) <=21)
-                mejorSituacion = situacion['cuenta']+10 if situacion['hayAs'] and situacion['cuenta']+10 <= 21  else situacion['cuenta']
-                if ((situacion['cuenta']>resultado['banca'] and mejorSituacion <= 21) or asCambiaSituacion or mejorSituacion > 21):
-                    pedir = False
-                    if(asCambiaSituacion):
-                        situacion['cuenta']+=10
-                instancia['pedir']=pedir
-                key = f"{situacion['cuenta']};{'TRUE' if situacion['hayAs'] else 'FALSE'};{situacion['banca']}"
-                if(not key in desicionMano):
-                    desicionMano[key] = 0
-                desicionMano[key] += 1 if pedir else -1
+        # Fijarme si me convenía quedarme antes
+        # si tengo un AS no siempre suma 10, es lo que me convenga
+        # Busco primera situacion donde mi cuenta era mayor que de la banca y cambio pedir y sus siguientes a false
+        for instancia in partidaData:
+            situacion = instancia['situacion']
+            # Tomar en cuenta que si se recibió un as en el medio pudo haber sido conveniente quedarse antes(#1).
+            mejorValor = situacion['cuenta']+10 if situacion['hayAs'] and situacion['cuenta']+10 <= 21  else situacion['cuenta']
+            aunNoGano = mejorValor <= resultado['banca']
+            pedir = aunNoGano and instancia['pedir']
+            key = f"{mejorValor};{'TRUE' if situacion['hayAs'] else 'FALSE'};{situacion['banca']}"
+            if(not key in desicionMano):
+                desicionMano[key] = 0
+            desicionMano[key] += 1 if pedir else -1
         if ((i /partidas * 100) % 2 == 0):
             print(f"Procesado un {i / partidas * 100}%")
     # write a row to the csv file
