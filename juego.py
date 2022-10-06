@@ -16,6 +16,9 @@ class Partida:
         # TODO revisar si se puede multiplicar el array asi nomas
         self.mazo = valoresPosibles * 4 * cantidadMazos
         random.shuffle(self.mazo)
+        random.shuffle(self.mazo)
+        random.shuffle(self.mazo)
+        random.shuffle(self.mazo)
 
         # se reparten las cartas para el jugador
         for i in range(2):

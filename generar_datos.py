@@ -59,8 +59,11 @@ if __name__ == "__main__":
                 key = f"{situacion['cuenta']};{'TRUE' if situacion['hayAs'] else 'FALSE'};{situacion['banca']}"
                 if(not key in desicionMano):
                     desicionMano[key] = 0
-                desicionMano[key] += pedir if 1 else -1
+                desicionMano[key] += 1 if pedir else -1
+        if ((i /partidas * 100) % 2 == 0):
+            print(f"Procesado un {i / partidas * 100}%")
     # write a row to the csv file
+    print("Escribiendo resultados")
     for key in desicionMano:
         row = ("%s;%s" % (key, 'TRUE' if desicionMano[key] > 0 else 'FALSE' ))
         # print("Guardando partida %s" % row)
