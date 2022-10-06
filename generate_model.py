@@ -1,7 +1,7 @@
 import tensorflow.keras as keras
 import csv
 
-with open('dummy.csv', 'r') as f:
+with open('datos.csv', 'r') as f:
   reader = csv.reader(f, delimiter=';')
   data = list(reader)
   convert_cell = lambda cell: 1 if cell == 'TRUE' else 0 if cell == 'FALSE' else int(cell) 
@@ -29,7 +29,7 @@ with open('dummy.csv', 'r') as f:
   model.compile(loss='mse', optimizer=keras.optimizers.Adam(learning_rate=learning_rate), metrics=['accuracy'])
 
   # Entrenamos el modelo
-  model.fit(x_train, y_train, epochs=500, batch_size=32)
+  model.fit(x_train, y_train, epochs=550, batch_size=32)
   # print('Prediction for ', x_train[:1])
   # print(model.predict(x_train[:1]))
 
