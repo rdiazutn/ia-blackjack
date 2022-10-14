@@ -1,5 +1,5 @@
 import sys
-import juego
+import aux_juego
 import csv
 
 CSV_FILE = 'datos.csv'
@@ -16,7 +16,7 @@ if __name__ == "__main__":
     writer = csv.writer(f)
     for i in range(int(partidas)):
         csvData = []
-        partida = juego.crearMano()
+        partida = aux_juego.crearMano()
         partidaData = []
         # trampa
         while(True):
