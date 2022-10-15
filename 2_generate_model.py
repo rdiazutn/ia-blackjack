@@ -1,5 +1,12 @@
 import tensorflow.keras as keras
+import tensorflow as tf
 import csv
+
+def _mean_relative_error(normalizer):
+  def mean_relative_error(y_pred, y_true):
+    return tf.math.divide_no_nan(tf.abs(y_true - y_pred), normalizer)
+  return mean_relative_error
+
 
 with open('datos.csv', 'r') as f:
   reader = csv.reader(f, delimiter=';')
@@ -26,7 +33,8 @@ with open('datos.csv', 'r') as f:
   # Compilamos el modelo
   ## SGD descenso del gradiente
   ## loss función de pérdida
-  model.compile(loss='mse', optimizer=keras.optimizers.Adam(learning_rate=learning_rate), metrics=['accuracy'])
+  model.compile(loss='mse', optimizer=keras.optimizers.Adam(learning_rate=learning_rate), 
+    metrics=[tf.keras.metrics.MeanAbsoluteError(), _mean_relative_error(normalizer=[1]), 'accuracy'])
 
   # Entrenamos el modelo
   model.fit(x_train, y_train, epochs=550, batch_size=32)
